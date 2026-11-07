@@ -11,8 +11,8 @@ From Saad. This file is everything you need for Sprint 1: what the team is doing
 | Saad | **Add-ons:** registration (customer/provider), login/logout with "remember me" and a rate limit, role-based access, account settings with profile photo, seeded admin account | No, supporting work |
 | Saad | **F1 Service Catalog & Search** and **F4 Service Request Posting & Lifecycle** | Yes |
 | **You (Farhaan)** | **F13 Professional Profile & Portfolio** | Yes |
-| Raisa | F14 Availability & Schedule Management | Yes |
-| Rubaiyat | F17 Provider Verification (KYC) | Yes |
+| Rubaiyat | F14 Availability & Schedule Management | Yes |
+| Raisa | F17 Provider Verification (KYC) | Yes |
 
 Your branch: **`feature/f13-provider-profile`**
 
@@ -35,7 +35,7 @@ Feature numbers follow the shared doc (*ThikThak — Feature List & Tech Stack*)
    - Work only on your own branch, and open a Pull Request into `main`. Someone else reviews it before it's merged.
    - Commit small steps with clear messages, from your own GitHub account. The faculty checks each person's commits.
    - Don't add columns to `users`. Add columns to `provider_profiles` or create your own tables, always in **your own new migration**. Never edit someone else's migration.
-   - `ProviderProfile` is shared by all four of us. Raisa and Rubaiyat put their methods in their own traits; you own the profile itself, but keep your additions tidy and pull often.
+   - `ProviderProfile` is shared by all four of us. Rubaiyat and Raisa put their methods in their own traits; you own the profile itself, but keep your additions tidy and pull often.
    - No logic in Blade views. Validation goes in Form Requests, permission checks in Policies or middleware, business rules in Models. Controllers stay short.
    - Ask in the group before `composer require` or `npm install <package>`. A package that does a whole feature for you needs faculty approval (rule book §7).
    - `php artisan test` must pass before you open a PR.
@@ -62,7 +62,7 @@ So the prompts in this file don't ask the AI to build your feature. They set it 
 - **Profile details:** headline (e.g. "Certified AC technician"), bio, years of experience. The profile photo already comes from Saad's account settings (`users.avatar_path`).
 - **Service area:** base location as latitude/longitude picked on a map (Leaflet + OpenStreetMap, both free), plus an area name and a service radius in km. If the map takes too long, use an area dropdown with seeded coordinates.
 - **Services offered:** the provider picks services from the F1 catalog and sets their own price for each, fixed or per hour.
-- **Certifications:** title, issuer, year, and an optional file (image or PDF). These are public. Checking the NID is Rubaiyat's F17, not yours.
+- **Certifications:** title, issuer, year, and an optional file (image or PDF). These are public. Checking the NID is Raisa's F17, not yours.
 - **Portfolio gallery:** photos of past work with captions, which the provider can reorder.
 - **Profile completeness score**, calculated in the model:
 
@@ -75,10 +75,10 @@ So the prompts in this file don't ask the AI to build your feature. They set it 
   | At least 1 portfolio item | 15% |
   | At least 1 certification | 10% |
 
-- **Public profile page** (`/providers/{id}`), visible to anyone: headline, bio, services with prices, service area, certifications, portfolio, member-since date, and Rubaiyat's verified badge. "Jobs completed" shows 0 until F15 exists, and the rating shows "No ratings yet" until F10 exists.
+- **Public profile page** (`/providers/{id}`), visible to anyone: headline, bio, services with prices, service area, certifications, portfolio, member-since date, and Raisa's verified badge. "Jobs completed" shows 0 until F15 exists, and the rating shows "No ratings yet" until F10 exists.
 
 ### Business rules
-- A provider can't go online for jobs below **60% completeness**. You provide `completeness()` and `canGoOnline()`, and Raisa calls `canGoOnline()`.
+- A provider can't go online for jobs below **60% completeness**. You provide `completeness()` and `canGoOnline()`, and Rubaiyat calls `canGoOnline()`.
 - A provider can only offer *active* catalog services, each one only once, at a price greater than 0.
 - Service radius is 1–25 km. Experience is 0–50 years.
 - At most 12 portfolio items. Each image is JPG/PNG/WEBP, max 2 MB.
@@ -116,14 +116,14 @@ portfolio_items
 | Access | `ProviderProfilePolicy` |
 
 ### Order of work
-1. Profile details and location, then `completeness()` and `canGoOnline()`. **Open a small first PR with these two methods early in the week**, because Raisa needs them.
+1. Profile details and location, then `completeness()` and `canGoOnline()`. **Open a small first PR with these two methods early in the week**, because Rubaiyat needs them.
 2. Portfolio and certifications (file uploads).
 3. Services offered, once Saad's F1 tables are on `main`.
 4. Public profile page, then the policy and tests.
 
 ### What others need from you
-- **Raisa (F14):** `canGoOnline()`, as early as possible.
-- **Rubaiyat (F17):** a place on the public page for `<x-verified-badge :profile="$profile" />`.
+- **Rubaiyat (F14):** `canGoOnline()`, as early as possible.
+- **Raisa (F17):** a place on the public page for `<x-verified-badge :profile="$profile" />`.
 - **F2 and F18 (later sprints):** `latitude`, `longitude` and `service_radius_km`.
 
 ### Test cases (normal / invalid / boundary, rule book §12)
@@ -154,7 +154,7 @@ Paste this into a new chat once, at the start.
 You are my tutor and code reviewer for a university Software Engineering project (CSE 470). Read all of this before you answer.
 
 PROJECT
-ThikThak is a local service marketplace for Bangladesh: customers find and book providers such as electricians, plumbers and tutors. Four students build it. I'm Farhaan, and this sprint I own feature F13. My teammate Saad builds the add-ons (registration, login, roles, account settings), F1 Service Catalog and F4 Service Request Posting. Raisa builds F14 Availability and Rubaiyat builds F17 Provider Verification.
+ThikThak is a local service marketplace for Bangladesh: customers find and book providers such as electricians, plumbers and tutors. Four students build it. I'm Farhaan, and this sprint I own feature F13. My teammate Saad builds the add-ons (registration, login, roles, account settings), F1 Service Catalog and F4 Service Request Posting. Rubaiyat builds F14 Availability and Raisa builds F17 Provider Verification.
 
 STACK (fixed, don't suggest alternatives)
 - Laravel 13, PHP 8.5 (XAMPP on Windows), MariaDB 10.11, Blade views, Tailwind CSS via Vite, Eloquent, PHPUnit feature tests.

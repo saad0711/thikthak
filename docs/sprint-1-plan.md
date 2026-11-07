@@ -10,7 +10,7 @@
 
 > **Numbering:** Feature numbers follow [`feature-list-v2.md`](feature-list-v2.md), which is still pending faculty approval. Under §3, report auth as *supporting work*, never as a feature.
 >
-> **Counted features: 2 (F1, F4).** That's the pace needed for 8 over 4 sprints. The roadmap's other Sprint 1 features go to the teammates: **F13 Farhaan, F14 Raisa, F17 Rubaiyat**. That gives the team its 5 for the sprint. Each has their own file with their spec and AI prompts: [`team/Sprint1/farhaan-f13.md`](team/Sprint1/farhaan-f13.md), [`team/Sprint1/raisa-f14.md`](team/Sprint1/raisa-f14.md), [`team/Sprint1/rubaiyat-f17.md`](team/Sprint1/rubaiyat-f17.md).
+> **Counted features: 2 (F1, F4).** That's the pace needed for 8 over 4 sprints. The roadmap's other Sprint 1 features go to the teammates: **F13 Farhaan, F14 Rubaiyat, F17 Raisa**. That gives the team its 5 for the sprint. Each has their own file with their spec and AI prompts: [`team/Sprint1/farhaan-f13.md`](team/Sprint1/farhaan-f13.md), [`team/Sprint1/rubaiyat-f14.md`](team/Sprint1/rubaiyat-f14.md), [`team/Sprint1/raisa-f17.md`](team/Sprint1/raisa-f17.md).
 >
 > *Changed on 2026-11-07:* F13 moved to Farhaan and I took F4 instead.
 
@@ -32,7 +32,7 @@
 Every feature (F1–F20) depends on this, so it comes first. It's reported in the SRS as supporting functionality.
 
 **Scope:**
-- Register as **Customer** or **Provider**: name, email, BD phone, password + confirmation, role. Provider registration also creates an empty `provider_profiles` row. The base table (`id`, `user_id`) is part of this foundation, so Farhaan (F13), Raisa (F14) and Rubaiyat (F17) can reference it from day one.
+- Register as **Customer** or **Provider**: name, email, BD phone, password + confirmation, role. Provider registration also creates an empty `provider_profiles` row. The base table (`id`, `user_id`) is part of this foundation, so Farhaan (F13), Rubaiyat (F14) and Raisa (F17) can reference it from day one.
 - Login with "remember me", logout, and a rate limit on repeated failed logins.
 - **Role-based access:** middleware limits routes to `customer` / `provider` / `admin`, and each role is redirected to its own dashboard after login.
 - **Account settings:** view and edit name, phone, area/address and profile photo, and change password (current password required).
@@ -157,7 +157,7 @@ services                                  -- F1
 
 provider_profiles                         -- base only, part of the auth foundation
   id, user_id FK → users (unique, cascade on delete), timestamps
-  -- Farhaan (F13), Raisa (F14) and Rubaiyat (F17) add their own columns
+  -- Farhaan (F13), Rubaiyat (F14) and Raisa (F17) add their own columns
   -- in their own migrations.
 
 service_requests                          -- F4
@@ -230,5 +230,5 @@ Roadmap Sprint 1 features: **F1, F4, F13, F14, F17**, plus the auth add-ons.
 | Me (Saad) | F1 Service Catalog & Search | Yes | |
 | Me (Saad) | F4 Service Request Posting & Lifecycle | Yes | |
 | Farhaan | F13 Professional Profile & Portfolio | Yes | |
-| Raisa | F14 Availability & Schedule Management | Yes | |
-| Rubaiyat | F17 Provider Verification (KYC) | Yes | |
+| Rubaiyat | F14 Availability & Schedule Management | Yes | |
+| Raisa | F17 Provider Verification (KYC) | Yes | |

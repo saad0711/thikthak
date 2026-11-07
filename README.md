@@ -12,8 +12,8 @@ It's our group project for **CSE 470 (Software Engineering)**, built with Larave
 |---|---|
 | Saad Bin Ahsan Khan | Supporting work (registration, login, roles, account settings) · F1 Service Catalog & Search · F4 Service Request Posting & Lifecycle |
 | Farhaan | F13 Professional Profile & Portfolio |
-| Raisa | F14 Availability & Schedule Management |
-| Rubaiyat | F17 Provider Verification (KYC) |
+| Rubaiyat | F14 Availability & Schedule Management |
+| Raisa | F17 Provider Verification (KYC) |
 
 Each member's Sprint 1 spec is in [`docs/team/Sprint1/`](docs/team/Sprint1/).
 
@@ -54,10 +54,10 @@ The 20 features below follow our revised feature list, which is still waiting fo
 | F11 | Real-Time Notification Center | 3 | | Planned |
 | F12 | In-App Messaging | 2 | | Planned |
 | F13 | Professional Profile & Portfolio | 1 | Farhaan | In progress |
-| F14 | Availability & Schedule Management | 1 | Raisa | In progress |
+| F14 | Availability & Schedule Management | 1 | Rubaiyat | In progress |
 | F15 | Job Status Tracking | 3 | | Planned |
 | F16 | Earnings & Payout Management | 4 | | Planned |
-| F17 | Provider Verification (KYC) | 1 | Rubaiyat | In progress |
+| F17 | Provider Verification (KYC) | 1 | Raisa | In progress |
 | F18 | Smart Matching & Dispatch Engine | 3 | | Planned |
 | F19 | Dispute & Complaint Resolution | 4 | | Planned |
 | F20 | Admin Analytics & User Moderation | 4 | | Planned |
