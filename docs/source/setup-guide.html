@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThikThak Setup Guide</title>
+<style>
+  @page {
+    size: A4;
+    margin: 17mm 17mm 19mm;
+    @bottom-center {
+      content: "ThikThak setup guide  \00B7  page " counter(page) " of " counter(pages);
+      font: 8pt "Segoe UI", sans-serif;
+      color: #8a8f98;
+    }
+  }
+  :root {
+    --accent: #0f766e;
+    --accent-soft: #e7f3f1;
+    --ink: #1d2127;
+    --muted: #5b616b;
+    --line: #e2e5e9;
+    --code-bg: #f5f6f8;
+    --warn: #8a5300;
+    --warn-soft: #fdf3e1;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 10.2pt;
+    line-height: 1.5;
+    color: var(--ink);
+    background: #fff;
+  }
+  header.cover {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+  }
+  .eyebrow {
+    font-size: 8.5pt;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  h1 { font-size: 24pt; line-height: 1.15; margin: 0 0 6px; font-weight: 700; }
+  .lead { font-size: 11.5pt; color: var(--muted); margin: 0 0 8px; }
+  .meta { font-size: 8.8pt; color: var(--muted); margin: 0; }
+  h2 {
+    font-size: 15pt;
+    margin: 26px 0 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--line);
+    break-after: avoid;
+  }
+  h2 .part { color: var(--accent); font-weight: 600; margin-right: 6px; }
+  h3 {
+    font-size: 11.8pt;
+    margin: 18px 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    break-after: avoid;
+  }
+  h3 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 9.5pt;
+    font-weight: 700;
+    flex: none;
+  }
+  p { margin: 0 0 7px; }
+  ol, ul { margin: 0 0 8px; padding-left: 20px; }
+  li { margin-bottom: 4px; }
+  li > p { margin: 0; }
+  code {
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 9pt;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+  pre {
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 9.2pt;
+    line-height: 1.45;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 7px 10px;
+    margin: 5px 0 9px;
+    white-space: pre-wrap;
+    break-inside: avoid;
+  }
+  .label {
+    font-size: 8.3pt;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin: 6px 0 -2px;
+  }
+  .ui { font-weight: 600; }
+  .callout {
+    border-radius: 6px;
+    padding: 9px 12px;
+    margin: 10px 0 12px;
+    break-inside: avoid;
+    background: var(--accent-soft);
+    border: 1px solid #c8e3de;
+  }
+  .callout.warn { background: var(--warn-soft); border-color: #f0dcb6; }
+  .callout .title { font-weight: 700; margin-bottom: 4px; }
+  .callout.warn .title { color: var(--warn); }
+  .callout ul { margin-bottom: 0; }
+  .callout p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 12px;
+    font-size: 9.4pt;
+  }
+  th, td {
+    text-align: left;
+    vertical-align: top;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  th {
+    background: var(--code-bg);
+    font-weight: 600;
+    font-size: 8.8pt;
+    border-bottom: 1px solid #cfd4da;
+  }
+  tr { break-inside: avoid; }
+  td code { font-size: 8.6pt; }
+  .muted { color: var(--muted); }
+  .done {
+    text-align: center;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid #c8e3de;
+    border-radius: 6px;
+    padding: 9px;
+    margin: 14px 0;
+  }
+  .page-break { break-before: page; }
+  footer.end { margin-top: 18px; font-size: 9pt; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <p class="eyebrow">CSE 470 &middot; ThikThak team</p>
+  <h1>ThikThak Setup Guide</h1>
+  <p class="lead">How to install everything ThikThak needs on your Windows PC, step by step from scratch.</p>
+  <p class="meta">Updated 6 November 2026 &middot; Windows 10 or 11 (64-bit) &middot; Every tool in this guide is free</p>
+</header>
+
+<h2>What you'll install</h2>
+<table>
+  <thead>
+    <tr><th style="width:5%">#</th><th style="width:22%">Tool</th><th>What it does</th><th style="width:26%">Get it from</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>VS Code</td><td>Code editor</td><td>code.visualstudio.com</td></tr>
+    <tr><td>2</td><td>Git</td><td>Saves versions of the code and shares them</td><td>git-scm.com</td></tr>
+    <tr><td>3</td><td>GitHub account</td><td>Gives you access to our shared repo</td><td>github.com</td></tr>
+    <tr><td>4</td><td>XAMPP 8.5.12</td><td>PHP 8.5, the MariaDB database and phpMyAdmin in one installer</td><td>apachefriends.org</td></tr>
+    <tr><td>5</td><td>Composer</td><td>Installs Laravel and the other PHP packages</td><td>getcomposer.org</td></tr>
+    <tr><td>6</td><td>Node.js (LTS)</td><td>Builds the CSS and JavaScript</td><td>nodejs.org</td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn">
+  <div class="title">Before you start</div>
+  <ul>
+    <li>You need an account that can install apps, and an internet connection.</li>
+    <li><b>Already have Laravel Herd, MySQL Server, WAMP or an older XAMPP?</b> Uninstall them first in <span class="ui">Settings &rarr; Apps &rarr; Installed apps</span>. They fight with XAMPP over ports 80 and 3306 and bring a second copy of PHP.</li>
+    <li>Run every command in this guide in <b>Command Prompt</b>: press Start, type <code>cmd</code>, press Enter.</li>
+    <li>After installing each tool, close Command Prompt and open a new one, so Windows notices the new tool.</li>
+  </ul>
+</div>
+
+<h2><span class="part">Part A</span>Install the tools</h2>
+
+<h3><span class="num">1</span>Install VS Code</h3>
+<ol>
+  <li>Go to <b>code.visualstudio.com</b> and click <span class="ui">Download for Windows</span>.</li>
+  <li>Run the installer. On <span class="ui">Select Additional Tasks</span>, keep <span class="ui">Add to PATH</span> ticked. Ticking <span class="ui">Add &ldquo;Open with Code&rdquo; action</span> is handy too.</li>
+  <li>Open VS Code, go to Extensions (<code>Ctrl+Shift+X</code>) and install these three:
+    <ul>
+      <li><b>Laravel</b> (publisher: Laravel)</li>
+      <li><b>PHP Intelephense</b> (Ben Mewburn). The free features are enough, so don't buy a licence.</li>
+      <li><b>Tailwind CSS IntelliSense</b> (Tailwind Labs)</li>
+    </ul>
+  </li>
+  <li>Make Command Prompt the built-in terminal: press <code>Ctrl+Shift+P</code>, type <span class="ui">Terminal: Select Default Profile</span>, and choose <span class="ui">Command Prompt</span>.</li>
+</ol>
+
+<h3><span class="num">2</span>Install Git</h3>
+<ol>
+  <li>Go to <b>git-scm.com</b>, click <span class="ui">Download for Windows</span>, and download the 64-bit installer.</li>
+  <li>Run it. On <span class="ui">Choosing the default editor used by Git</span>, pick <span class="ui">Use Visual Studio Code as Git's default editor</span>. Leave every other screen on its default.</li>
+  <li>Open a new Command Prompt and check it works:
+<pre>git --version</pre></li>
+  <li>Tell Git who you are. Use the same email as your GitHub account:
+<pre>git config --global user.name "Your Full Name"
+git config --global user.email "you@example.com"</pre></li>
+</ol>
+
+<h3><span class="num">3</span>Create a GitHub account</h3>
+<ol>
+  <li>Sign up at <b>github.com</b>. The free plan is all we need.</li>
+  <li>Send your GitHub username to Saad.</li>
+  <li>Accept the invite when it arrives, from your email or <b>github.com/notifications</b>. Invites expire after 7 days.</li>
+</ol>
+
+<h3><span class="num">4</span>Install XAMPP 8.5.12</h3>
+<ol>
+  <li>Go to <b>apachefriends.org</b>, open <span class="ui">Download</span>, and get <b>XAMPP for Windows 8.5.12</b>. Don't pick 8.4 or 8.3: the whole team needs the same PHP version.</li>
+  <li>Run the installer. Windows may stop you along the way:
+    <ul>
+      <li><b>A message says the app was blocked, with only <span class="ui">OK</span> and <span class="ui">Get apps from Microsoft Store</span>, and the installer closes.</b> This is Smart App Control, and it blocks XAMPP because the installer isn't digitally signed. Open <span class="ui">Windows Security &rarr; App &amp; browser control &rarr; Smart App Control settings</span>, choose <span class="ui">Off</span>, and run the installer again. Smart App Control would also block XAMPP's own programs, so it has to stay off. Your antivirus keeps running.</li>
+      <li><b>A blue &ldquo;Windows protected your PC&rdquo; box.</b> Click <span class="ui">More info &rarr; Run anyway</span>.</li>
+      <li><b>A warning about UAC (User Account Control).</b> Click <span class="ui">OK</span>. It only asks you not to install into Program Files.</li>
+    </ul>
+  </li>
+  <li>On the components screen, <b>Apache, MySQL, PHP and phpMyAdmin</b> must stay ticked. You can untick the rest (FileZilla, Mercury, Tomcat, Perl, Webalizer, Fake Sendmail).</li>
+  <li>Keep the install folder as <code>C:\xampp</code>.</li>
+  <li>Finish with <span class="ui">start the Control Panel</span> ticked. If Windows Firewall asks about Apache or mysqld, click <span class="ui">Allow</span>.</li>
+  <li>In the XAMPP Control Panel, click <span class="ui">Start</span> next to <b>Apache</b> and next to <b>MySQL</b>. Both names turn green.</li>
+  <li>Open <b>http://localhost/phpmyadmin</b> in your browser. If phpMyAdmin loads, XAMPP works.</li>
+</ol>
+<p class="muted">The panel says &ldquo;MySQL&rdquo;, but XAMPP actually runs MariaDB, which works like MySQL. That's expected, and Laravel is set up for it.</p>
+
+<h3><span class="num">5</span>Switch on PHP extensions</h3>
+<p>Laravel needs a few PHP extensions that XAMPP may ship switched off.</p>
+<ol>
+  <li>In the XAMPP Control Panel, on the <b>Apache</b> row, click <span class="ui">Config &rarr; PHP (php.ini)</span>. The file opens in Notepad.</li>
+  <li>Press <code>Ctrl+F</code> and find each line below. If it starts with <code>;</code>, delete the <code>;</code>. If a line isn't there at all, type it in next to the other <code>extension=</code> lines.
+<pre>extension=curl
+extension=fileinfo
+extension=gd
+extension=intl
+extension=mbstring
+extension=openssl
+extension=pdo_mysql
+extension=zip</pre></li>
+  <li>Save with <code>Ctrl+S</code>. Then click <span class="ui">Stop</span> and <span class="ui">Start</span> on Apache in the Control Panel.</li>
+</ol>
+
+<h3><span class="num">6</span>Install Composer</h3>
+<ol>
+  <li>Go to <b>getcomposer.org/download</b> and download <b>Composer-Setup.exe</b>.</li>
+  <li>Run it. Leave <span class="ui">Developer mode</span> unticked.</li>
+  <li>When it asks for the PHP executable, choose <code>C:\xampp\php\php.exe</code>. If it offers to add PHP to your PATH, accept.</li>
+  <li>Skip the proxy screen and click <span class="ui">Install</span>.</li>
+  <li>Open a new Command Prompt and check both:
+<pre>php -v
+composer -V</pre>
+  <code>php -v</code> must say <b>PHP 8.5.12</b>. If it shows another version, see Troubleshooting at the end.</li>
+</ol>
+
+<h3><span class="num">7</span>Install Node.js</h3>
+<ol>
+  <li>Go to <b>nodejs.org</b> and download the <b>LTS</b> Windows installer (<code>.msi</code>). Version 24 or newer works.</li>
+  <li>Run it with the default options. On <span class="ui">Tools for Native Modules</span>, leave the box unticked; we don't need it.</li>
+  <li>Open a new Command Prompt and check:
+<pre>node -v
+npm -v</pre></li>
+</ol>
+
+<div class="callout">
+  <div class="title">Checkpoint: is everything installed?</div>
+  <p>Open a new Command Prompt and run each command. You should see:</p>
+  <table style="margin-bottom:0">
+    <thead><tr><th style="width:34%">Command</th><th>You should see</th></tr></thead>
+    <tbody>
+      <tr><td><code>git --version</code></td><td>git version 2.x</td></tr>
+      <tr><td><code>php -v</code></td><td>PHP 8.5.12</td></tr>
+      <tr><td><code>composer -V</code></td><td>Composer version 2.x</td></tr>
+      <tr><td><code>node -v</code></td><td>v24 or newer</td></tr>
+      <tr><td><code>npm -v</code></td><td>a version number</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="page-break"><span class="part">Part B</span>Get ThikThak running</h2>
+
+<h3><span class="num">8</span>Download the project</h3>
+<ol>
+  <li>Make a folder <b>outside OneDrive</b>, because OneDrive struggles with the thousands of small files a Laravel project has. For example:
+<pre>mkdir C:\Projects
+cd /d C:\Projects</pre></li>
+  <li>On our GitHub repo page, click the green <span class="ui">Code</span> button and copy the HTTPS link. Then run the command below, with the link you copied in place of the example:
+<pre>git clone https://github.com/OWNER/thikthak.git
+cd thikthak</pre></li>
+  <li>The first time, a window asks you to sign in to GitHub. Choose <span class="ui">Sign in with your browser</span> and approve.</li>
+</ol>
+
+<h3><span class="num">9</span>Install the project's packages</h3>
+<pre>composer install
+npm install
+copy .env.example .env
+php artisan key:generate</pre>
+<p><code>composer install</code> and <code>npm install</code> take a few minutes the first time. The <code>.env</code> file holds your own local settings and never goes to GitHub.</p>
+
+<h3><span class="num">10</span>Create the database</h3>
+<ol>
+  <li>In the XAMPP Control Panel, make sure MySQL is running (green).</li>
+  <li>Open <b>http://localhost/phpmyadmin</b> and click <span class="ui">New</span> in the left sidebar.</li>
+  <li>Database name: <code>thikthak</code>. Collation: <code>utf8mb4_unicode_ci</code>. Click <span class="ui">Create</span>.</li>
+  <li>Open <code>.env</code> in VS Code and check these lines. They should already be right, because XAMPP's <code>root</code> user has no password:
+<pre>DB_CONNECTION=mariadb
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=thikthak
+DB_USERNAME=root
+DB_PASSWORD=</pre></li>
+</ol>
+
+<h3><span class="num">11</span>Create the tables and test data</h3>
+<pre>php artisan migrate --seed
+php artisan storage:link</pre>
+<p>The first command builds every table and adds test data. The second lets uploaded photos show up in the browser.</p>
+
+<h3><span class="num">12</span>Run the app</h3>
+<p>Open two Command Prompt windows (or two VS Code terminals) in the <code>thikthak</code> folder.</p>
+<p class="label">Window 1</p>
+<pre>php artisan serve</pre>
+<p class="label">Window 2</p>
+<pre>npm run dev</pre>
+<p>Now open <b>http://127.0.0.1:8000</b> in your browser. Keep both windows open while you work, and press <code>Ctrl+C</code> in each one to stop.</p>
+
+<div class="done">If the ThikThak home page loads, you're fully set up.</div>
+
+<h2><span class="part">Part C</span>Every time you work</h2>
+<ol>
+  <li><b>Start the database.</b> In XAMPP, click Start on MySQL, and on Apache too if you want phpMyAdmin.</li>
+  <li><b>Get your teammates' latest work.</b> The last three commands pick up new packages and tables. They're safe to run every time.
+<pre>git switch main
+git pull
+composer install
+npm install
+php artisan migrate</pre></li>
+  <li><b>Work on your own branch.</b>
+    <p class="label">First time for a feature</p>
+<pre>git switch -c feature/f4-service-requests</pre>
+    <p class="label">Coming back to it later</p>
+<pre>git switch feature/f4-service-requests
+git merge main</pre>
+  </li>
+  <li><b>Run the app</b> as in Step 12, and write your code.</li>
+  <li><b>Save and share your work.</b>
+<pre>git add .
+git commit -m "Describe what you changed"
+git push -u origin feature/f4-service-requests</pre>
+    Then on GitHub, open a <b>Pull Request</b> into <code>main</code> and ask a teammate to review it.</li>
+  <li><b>Before you shut down the PC,</b> click Stop on MySQL in XAMPP. Shutting down while it runs can damage the database.</li>
+</ol>
+
+<div class="callout">
+  <div class="title">Team rules</div>
+  <ul>
+    <li>Never commit <code>.env</code>. It holds your own settings, and Git already ignores it.</li>
+    <li>Never push straight to <code>main</code>. Every change goes in through a Pull Request.</li>
+    <li>Commit your own work from your own GitHub account. The faculty checks each person's commits.</li>
+    <li>To change a table that's already on <code>main</code>, write a new migration. Don't edit the old one.</li>
+    <li>Don't run <code>composer update</code> on your own. It changes package versions for everyone, so ask in the group first.</li>
+  </ul>
+</div>
+
+<h2>Troubleshooting</h2>
+<table>
+  <thead><tr><th style="width:42%">Problem</th><th>Fix</th></tr></thead>
+  <tbody>
+    <tr><td>Apache won't start: port 80 in use</td><td>Another program uses port 80. Click <span class="ui">Netstat</span> in the XAMPP Control Panel to see which one, then close or uninstall it (often Herd, IIS or another XAMPP).</td></tr>
+    <tr><td>XAMPP installer closes after a &ldquo;blocked&rdquo; message with only OK and &ldquo;Get apps from Microsoft Store&rdquo;</td><td>Smart App Control is on. Turn it off in Windows Security &rarr; App &amp; browser control &rarr; Smart App Control settings, then run the installer again (Step 4).</td></tr>
+    <tr><td>MySQL won't start: port 3306 in use</td><td>MySQL Server is still installed, or its service is still running after the uninstall. Uninstall it in Settings &rarr; Apps, then restart the PC.</td></tr>
+    <tr><td><code>'php' is not recognized</code></td><td>PHP isn't on your PATH. Run Composer-Setup again, accept adding PHP to the PATH, then open a new Command Prompt.</td></tr>
+    <tr><td><code>php -v</code> doesn't show 8.5.12</td><td>Run <code>where php</code>. If the first line isn't <code>C:\xampp\php\php.exe</code>, uninstall the other PHP (Herd or an older XAMPP).</td></tr>
+    <tr><td>Composer says an extension is missing (<code>ext-zip</code>, <code>ext-intl</code>, <code>ext-gd</code>, <code>ext-fileinfo</code>)</td><td>Switch it on in <code>php.ini</code> (Step 5), then run the command again.</td></tr>
+    <tr><td>Composer complains about the PHP version or the lock file</td><td>You aren't on PHP 8.5.12. Check <code>php -v</code>.</td></tr>
+    <tr><td><code>SQLSTATE[HY000] [2002]</code> &hellip; connection refused</td><td>MySQL isn't running. Start it in the XAMPP Control Panel.</td></tr>
+    <tr><td><code>SQLSTATE[HY000] [1049] Unknown database 'thikthak'</code></td><td>Create the database (Step 10).</td></tr>
+    <tr><td>&ldquo;No application encryption key has been specified&rdquo;</td><td>Run <code>php artisan key:generate</code>.</td></tr>
+    <tr><td>&ldquo;Vite manifest not found&rdquo;, or the page has no styling</td><td><code>npm run dev</code> isn't running. Start it in a second window (Step 12).</td></tr>
+    <tr><td><code>'npm' is not recognized</code></td><td>Reinstall Node.js, then open a new Command Prompt.</td></tr>
+  </tbody>
+</table>
+
+<footer class="end">Stuck? Post the exact error message in the group chat, along with the step you were on.</footer>
+
+</body>
+</html>
