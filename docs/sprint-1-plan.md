@@ -93,7 +93,7 @@ Every feature (F1–F20) depends on this, so it comes first. It's reported in th
 ## 4. F4: Service Request Posting & Lifecycle *(counted feature)*
 
 **Scope:**
-- **Post a request:** the customer picks a service from the F1 catalog and enters a title, description, budget range in BDT (min and max), deadline date, location (area name plus a map pin for latitude/longitude) and up to 5 photos.
+- **Post a request:** the customer picks a service from the F1 catalog and enters a title, description, budget range in BDT (min and max), deadline date, location and up to 5 photos. *As built:* the location is an area dropdown, and the area's centre coordinates (`config/thikthak.php`) are saved as latitude/longitude. A Leaflet map pin can replace the dropdown later without changing the table.
 - **My requests:** a list of the customer's own requests with a status filter and pagination, and a detail page with the photos and current status.
 - **Edit** while the request is Open. **Cancel** while it's Open or Quoted, with an optional reason.
 - **Status lifecycle:** Open → Quoted → Assigned → Completed, plus Cancelled and Expired. In Sprint 1 only Open, Cancelled and Expired actually happen. F5 (Sprint 2) moves a request to Quoted on the first quote and to Assigned when a quote is accepted, and F15 (Sprint 3) completes it. The allowed moves live in the model, so those features call `transitionTo()` instead of setting the status directly.
@@ -187,11 +187,11 @@ service_request_photos                    -- F4
 
 | Layer | Files |
 |---|---|
-| **Model** | `User`, `ServiceCategory`, `Service`, `ProviderProfile` (base), `ServiceRequest` (incl. `isEditable()`, `canBeCancelled()`, `transitionTo()`, scopes `open()` and `overdue()`), `ServiceRequestPhoto`. Relationships, casts, scopes like `active()` and `priceBetween()` |
-| **View** | `layouts/app`, `auth/register`, `auth/login`, `account/edit`, `admin/categories/*`, `admin/services/*`, `catalog/index`, `catalog/category`, `customer/requests/index`, `customer/requests/create`, `customer/requests/edit`, `customer/requests/show` |
-| **Controller** | `Auth/RegisterController`, `Auth/LoginController`, `AccountController`, `Admin/ServiceCategoryController`, `Admin/ServiceController`, `CatalogController`, `Customer/ServiceRequestController` (index, create, store, show, edit, update, cancel) |
-| **Validation** | Form Requests: `RegisterRequest`, `UpdateAccountRequest`, `StoreCategoryRequest`, `StoreServiceRequest`, `CatalogSearchRequest`, `StoreServiceRequestRequest`, `UpdateServiceRequestRequest` |
-| **Access control** | `EnsureRole` middleware (alias `role` in `bootstrap/app.php`) for role checks · `ServiceRequestPolicy` for "only the owner can view, edit or cancel" |
+| **Model** | `User`, `ServiceCategory`, `Service`, `ProviderProfile` (base), `ServiceRequest` (incl. `isEditable()`, `canBeCancelled()`, `transitionTo()`, `cancel()`, scopes `withStatus()` and `overdue()`), `ServiceRequestPhoto`. Scopes on `Service`: `available()`, `search()`, `inCategory()`, `priceBetween()`, `sortedBy()`. Enums `UserRole` and `ServiceRequestStatus` (the allowed status moves) in `app/Enums` |
+| **View** | `layouts/app`, `partials/nav`, components (`input`, `select`, `textarea`, `flash`, `status-badge`), `auth/*` (register, login, forgot-password, reset-password, verify-email), `account/edit`, `customer/dashboard`, `provider/dashboard`, `admin/dashboard`, `admin/categories/*`, `admin/services/*`, `catalog/index`, `catalog/search`, `catalog/category`, `requests/index`, `requests/create`, `requests/edit`, `requests/show` |
+| **Controller** | `Auth/RegisterController`, `Auth/LoginController`, `Auth/PasswordResetLinkController`, `Auth/NewPasswordController`, `Auth/EmailVerificationController`, `DashboardController`, `AccountController`, `Customer/DashboardController`, `Provider/DashboardController`, `Admin/DashboardController`, `Admin/ServiceCategoryController`, `Admin/ServiceController`, `CatalogController`, `ServiceRequestController` (index, create, store, show, edit, update, cancel) |
+| **Validation** | Form Requests: `Auth/RegisterRequest`, `Auth/LoginRequest`, `Auth/ForgotPasswordRequest`, `Auth/ResetPasswordRequest`, `Account/UpdateAccountRequest`, `Account/UpdatePasswordRequest`, `Account/DeactivateAccountRequest`, `Admin/CategoryFormRequest`, `Admin/ServiceFormRequest`, `CatalogSearchRequest`, `ServiceRequests/StoreServiceRequestRequest`, `ServiceRequests/UpdateServiceRequestRequest`, `ServiceRequests/CancelServiceRequestRequest` |
+| **Access control** | `EnsureRole` middleware (alias `role`) for role checks · `EnsureUserIsActive` (alias `active`) logs out deactivated accounts · `ServiceRequestPolicy` for "only the owner can view, edit or cancel" · `throttle:login` rate limiter in `AppServiceProvider` |
 | **Scheduled job** | `app/Console/Commands/ExpireServiceRequests` (`requests:expire`), scheduled in `routes/console.php` |
 | **Routes** | `routes/web.php` grouped by `auth` + `role:...` middleware. Public catalog pages sit outside the `auth` group |
 
