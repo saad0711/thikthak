@@ -12,7 +12,11 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Provider\AvailabilityController;
 use App\Http\Controllers\Provider\DashboardController as ProviderDashboardController;
+use App\Http\Controllers\Provider\DayOffController;
+use App\Http\Controllers\Provider\OnlineStatusController;
+use App\Http\Controllers\Provider\ScheduleController;
 use App\Http\Controllers\ServiceRequestController;
 use Illuminate\Support\Facades\Route;
 
@@ -88,6 +92,15 @@ Route::middleware(['auth', 'active', 'verified'])->group(function () {
     // Providers: F13, F14 and F17 add their pages here
     Route::middleware('role:provider')->prefix('provider')->name('provider.')->group(function () {
         Route::get('/dashboard', ProviderDashboardController::class)->name('dashboard');
+
+        // F14: Availability & Schedule Management
+        Route::get('/schedule', [ScheduleController::class, 'week'])->name('schedule.week');
+        Route::get('/availability', [AvailabilityController::class, 'edit'])->name('availability.edit');
+        Route::put('/availability', [AvailabilityController::class, 'update'])->name('availability.update');
+        Route::patch('/online-status', [OnlineStatusController::class, 'toggle'])->name('online-status.toggle');
+        Route::get('/days-off', [DayOffController::class, 'index'])->name('days-off.index');
+        Route::post('/days-off', [DayOffController::class, 'store'])->name('days-off.store');
+        Route::delete('/days-off/{dayOff}', [DayOffController::class, 'destroy'])->name('days-off.destroy');
     });
 
     // Admins: dashboard and F1 catalog management

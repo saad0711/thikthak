@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CatalogSeeder::class,
             ServiceRequestSeeder::class,
+            AvailabilitySeeder::class,
         ]);
     }
 }

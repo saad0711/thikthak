@@ -15,7 +15,10 @@
         <div class="card">
             <h2 class="font-semibold">Availability</h2>
             <p class="mt-1 text-sm text-stone-600">Working hours, days off and going online for instant jobs.</p>
-            <p class="mt-3 text-xs font-medium uppercase tracking-wide text-amber-700">Coming soon</p>
+            <div class="mt-4 flex items-center gap-3">
+                <a href="{{ route('provider.availability.edit') }}" class="btn-primary text-xs">Manage availability</a>
+                <a href="{{ route('provider.schedule.week') }}" class="link text-xs">View calendar</a>
+            </div>
         </div>
         <div class="card">
             <h2 class="font-semibold">Verification</h2>

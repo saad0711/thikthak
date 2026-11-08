@@ -17,7 +17,10 @@
                     <a href="{{ route('requests.index') }}" class="{{ $navLink('requests.index') }}">My requests</a>
                     <a href="{{ route('requests.create') }}" class="{{ $navLink('requests.create') }}">Post a request</a>
                 @elseif (auth()->user()->isProvider())
-                    <a href="{{ route('provider.dashboard') }}" class="{{ $navLink('provider.*') }}">Dashboard</a>
+                    <a href="{{ route('provider.dashboard') }}" class="{{ $navLink('provider.dashboard') }}">Dashboard</a>
+                    <a href="{{ route('provider.schedule.week') }}" class="{{ $navLink('provider.schedule.*') }}">Schedule</a>
+                    <a href="{{ route('provider.availability.edit') }}" class="{{ $navLink('provider.availability.*') }}">Availability</a>
+                    <a href="{{ route('provider.days-off.index') }}" class="{{ $navLink('provider.days-off.*') }}">Days off</a>
                 @elseif (auth()->user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}" class="{{ $navLink('admin.dashboard') }}">Dashboard</a>
                     <a href="{{ route('admin.categories.index') }}" class="{{ $navLink('admin.categories.*') }}">Categories</a>
