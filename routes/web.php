@@ -18,6 +18,11 @@ use App\Http\Controllers\Provider\DayOffController;
 use App\Http\Controllers\Provider\OnlineStatusController;
 use App\Http\Controllers\Provider\ScheduleController;
 use App\Http\Controllers\ServiceRequestController;
+use App\Http\Controllers\CertificationController;
+use App\Http\Controllers\PortfolioItemController;
+use App\Http\Controllers\ProviderProfileController;
+use App\Http\Controllers\ProviderServiceController;
+use App\Http\Controllers\ServiceAreaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +34,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CatalogController::class, 'index'])->name('home');
 Route::get('/services', [CatalogController::class, 'search'])->name('catalog.search');
 Route::get('/categories/{category:slug}', [CatalogController::class, 'category'])->name('catalog.category');
+// F13: Public provider profile
+Route::get('/providers/{providerProfile}', [ProviderProfileController::class, 'show'])
+    ->name('providers.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +109,23 @@ Route::middleware(['auth', 'active', 'verified'])->group(function () {
         Route::get('/days-off', [DayOffController::class, 'index'])->name('days-off.index');
         Route::post('/days-off', [DayOffController::class, 'store'])->name('days-off.store');
         Route::delete('/days-off/{dayOff}', [DayOffController::class, 'destroy'])->name('days-off.destroy');
+
+        // F13: Professional Profile & Portfolio
+        Route::get('/profile', [ProviderProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [ProviderProfileController::class, 'update'])->name('profile.update');
+        
+        Route::put('/profile/services', [ProviderServiceController::class, 'update'])->name('services.update');
+        
+        Route::put('/profile/area', [ServiceAreaController::class, 'update'])->name('area.update');
+        
+        Route::post('/certifications', [CertificationController::class, 'store'])->name('certifications.store');
+        Route::get('/certifications/{certification}/edit', [CertificationController::class, 'edit'])->name('certifications.edit');
+        Route::get('/certifications/{certification}/file', [CertificationController::class, 'download'])->name('certifications.file');
+        Route::put('/certifications/{certification}', [CertificationController::class, 'update'])->name('certifications.update');
+        Route::delete('/certifications/{certification}', [CertificationController::class, 'destroy'])->name('certifications.destroy');
+        
+        Route::post('/portfolio', [PortfolioItemController::class, 'store'])->name('portfolio.store');
+        Route::delete('/portfolio/{portfolioItem}', [PortfolioItemController::class, 'destroy'])->name('portfolio.destroy');
     });
 
     // Admins: dashboard and F1 catalog management
