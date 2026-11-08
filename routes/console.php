@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+// F4: close requests whose deadline has passed. Locally, run `php artisan schedule:work`
+// to keep the scheduler going, or run `php artisan requests:expire` by hand.
+Schedule::command('requests:expire')->hourly();

@@ -1,4 +1,4 @@
-# ThikThak Sprint 1 — Raisa: F14 Availability & Schedule Management
+# ThikThak Sprint 1 — Rubaiyat: F14 Availability & Schedule Management
 
 From Saad. This file is everything you need for Sprint 1: what the team is doing, your feature spec, your test cases, and the AI prompts to use while you build it.
 
@@ -11,8 +11,8 @@ From Saad. This file is everything you need for Sprint 1: what the team is doing
 | Saad | **Add-ons:** registration (customer/provider), login/logout with "remember me" and a rate limit, role-based access, account settings with profile photo, seeded admin account | No, supporting work |
 | Saad | **F1 Service Catalog & Search** and **F4 Service Request Posting & Lifecycle** | Yes |
 | Farhaan | F13 Professional Profile & Portfolio | Yes |
-| **You (Raisa)** | **F14 Availability & Schedule Management** | Yes |
-| Rubaiyat | F17 Provider Verification (KYC) | Yes |
+| **You (Rubaiyat)** | **F14 Availability & Schedule Management** | Yes |
+| Raisa | F17 Provider Verification (KYC) | Yes |
 
 Your branch: **`feature/f14-availability`**
 
@@ -51,7 +51,7 @@ So the prompts in this file don't ask the AI to build your feature. They set it 
 
 - Any AI chat works. The free tier is enough, so don't pay for anything.
 - Start a new chat with **your starter prompt**, then use the **step prompts** for each step.
-- **Keep your AI-use log** in `docs/ai-use/raisa.md`, with the columns Date | Tool | What it helped with | What I did myself. The final submission needs an AI-use statement, and this is where yours comes from.
+- **Keep your AI-use log** in `docs/ai-use/rubaiyat.md`, with the columns Date | Tool | What it helped with | What I did myself. The final submission needs an AI-use statement, and this is where yours comes from.
 - Never let an AI write your commit messages or sprint reports, and never paste passwords or `.env` contents into a chat.
 
 ---
@@ -140,7 +140,7 @@ Paste this into a new chat once, at the start.
 You are my tutor and code reviewer for a university Software Engineering project (CSE 470). Read all of this before you answer.
 
 PROJECT
-ThikThak is a local service marketplace for Bangladesh: customers find and book providers such as electricians, plumbers and tutors. Four students build it. I'm Raisa, and this sprint I own feature F14. My teammate Saad builds the add-ons (registration, login, roles, account settings), F1 Service Catalog and F4 Service Request Posting. Farhaan builds F13 Provider Profile and Rubaiyat builds F17 Provider Verification.
+ThikThak is a local service marketplace for Bangladesh: customers find and book providers such as electricians, plumbers and tutors. Four students build it. I'm Rubaiyat, and this sprint I own feature F14. My teammate Saad builds the add-ons (registration, login, roles, account settings), F1 Service Catalog and F4 Service Request Posting. Farhaan builds F13 Provider Profile and Raisa builds F17 Provider Verification.
 
 STACK (fixed, don't suggest alternatives)
 - Laravel 13, PHP 8.5 (XAMPP on Windows), MariaDB 10.11, Blade views, Tailwind CSS via Vite, Eloquent, PHPUnit tests.
@@ -230,4 +230,4 @@ Quiz me like a viva examiner on my feature, one question at a time, 10 questions
 - [ ] No logic in Blade. Validation is in Form Requests, permission checks in the Policy.
 - [ ] No `.env` in the commit.
 - [ ] Commit messages say what changed (for example `Add weekly working hours form`, not `update`).
-- [ ] `docs/ai-use/raisa.md` is up to date.
+- [ ] `docs/ai-use/rubaiyat.md` is up to date.
