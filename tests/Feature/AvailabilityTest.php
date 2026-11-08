@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\DayOff;
 use App\Models\ProviderProfile;
+use App\Models\Service;
 use App\Models\User;
 use App\Models\WorkingHour;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,6 +27,28 @@ class AvailabilityTest extends TestCase
         $this->providerProfile->update(['slot_minutes' => 60]);
 
         $this->customerUser = User::factory()->customer()->create();
+    }
+
+    /**
+     * Give the provider real F13 profile data worth a known completeness score.
+     * Photo 15 + bio 15 + a service 25 + a service area 20.
+     *
+     * @param  array<int, string>  $parts
+     */
+    private function fillProfile(array $parts): void
+    {
+        $this->providerProfile->update(array_filter([
+            'photo_path' => in_array('photo', $parts) ? 'profile-photos/me.jpg' : null,
+            'bio' => in_array('bio', $parts) ? 'Experienced local technician.' : null,
+            'area_name' => in_array('area', $parts) ? 'Mirpur' : null,
+            'latitude' => in_array('area', $parts) ? 23.82 : null,
+            'longitude' => in_array('area', $parts) ? 90.36 : null,
+            'radius_km' => in_array('area', $parts) ? 10 : null,
+        ]));
+
+        if (in_array('service', $parts)) {
+            $this->providerProfile->services()->attach(Service::factory()->create(), ['price' => 500]);
+        }
     }
 
     /**
@@ -266,7 +289,8 @@ class AvailabilityTest extends TestCase
         ]);
 
         // Incomplete profile (< 60%)
-        $this->providerProfile->update(['completeness_percentage' => 55]);
+        $this->fillProfile(['photo', 'bio', 'service']);
+        $this->assertSame(55, $this->providerProfile->completeness());
 
         $response = $this->actingAs($this->providerUser)->patch(route('provider.online-status.toggle'));
 
@@ -281,7 +305,8 @@ class AvailabilityTest extends TestCase
     public function test_refuses_to_go_online_without_working_hours(): void
     {
         // Profile completeness is >= 60%, but no working hours exist
-        $this->providerProfile->update(['completeness_percentage' => 100]);
+        $this->fillProfile(['bio', 'service', 'area']);
+        $this->assertSame(60, $this->providerProfile->completeness());
 
         $this->assertFalse($this->providerProfile->hasWorkingHours());
 
@@ -304,13 +329,35 @@ class AvailabilityTest extends TestCase
             'end_time' => '17:00',
         ]);
 
-        $this->providerProfile->update(['completeness_percentage' => 100]);
+        // Exactly 60% is enough
+        $this->fillProfile(['bio', 'service', 'area']);
+        $this->assertSame(60, $this->providerProfile->completeness());
 
         $response = $this->actingAs($this->providerUser)->patch(route('provider.online-status.toggle'));
 
         $response->assertSessionHas('success');
         $this->providerProfile->refresh();
         $this->assertTrue($this->providerProfile->is_online);
+    }
+
+    /**
+     * Business rule: a brand-new empty profile scores 0%, so it can't go online.
+     */
+    public function test_empty_profile_cannot_go_online(): void
+    {
+        WorkingHour::create([
+            'provider_profile_id' => $this->providerProfile->id,
+            'day_of_week' => 1,
+            'start_time' => '09:00',
+            'end_time' => '17:00',
+        ]);
+
+        $this->assertSame(0, $this->providerProfile->completeness());
+
+        $this->actingAs($this->providerUser)->patch(route('provider.online-status.toggle'))
+            ->assertSessionHas('error');
+
+        $this->assertFalse($this->providerProfile->refresh()->is_online);
     }
 
     /**
@@ -344,5 +391,27 @@ class AvailabilityTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('provider.schedule.week');
         $response->assertSee('Weekly Schedule Calendar');
+    }
+
+    /**
+     * An unusable ?date= falls back to the current week instead of crashing.
+     */
+    public function test_schedule_falls_back_to_this_week_for_an_invalid_date(): void
+    {
+        $this->actingAs($this->providerUser);
+
+        $this->get('/provider/schedule?date=not-a-date')->assertOk();
+        $this->get('/provider/schedule?date=2026-13-45')->assertOk();
+        $this->get('/provider/schedule?date[]=2026-11-08')->assertOk();
+    }
+
+    /**
+     * A valid ?date= still opens the week containing that date.
+     */
+    public function test_schedule_opens_the_week_of_a_valid_date(): void
+    {
+        $response = $this->actingAs($this->providerUser)->get('/provider/schedule?date=2026-11-18')->assertOk();
+
+        $this->assertSame('2026-11-14', $response->viewData('startOfWeek')->toDateString());
     }
 }

@@ -17,9 +17,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProviderProfile extends Model
 {
     /** @use HasFactory<ProviderProfileFactory> */
-    use HasFactory, HasAvailability, HasF13ProviderProfile;
+    use HasAvailability, HasF13ProviderProfile, HasFactory;
 
     public const MAX_PORTFOLIO_ITEMS = 12;
+
+    public const MIN_COMPLETENESS_TO_GO_ONLINE = 60;
 
     protected $fillable = [
         'user_id',
@@ -32,7 +34,6 @@ class ProviderProfile extends Model
         'radius_km',
         'is_online',
         'slot_minutes',
-        'completeness_percentage',
     ];
 
     protected function casts(): array
@@ -40,7 +41,6 @@ class ProviderProfile extends Model
         return [
             'is_online' => 'boolean',
             'slot_minutes' => 'integer',
-            'completeness_percentage' => 'integer',
             'years_experience' => 'integer',
             'latitude' => 'decimal:7',
             'longitude' => 'decimal:7',
@@ -52,14 +52,5 @@ class ProviderProfile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Completeness check from F13 (Farhaan).
-     * canGoOnline() requires at least 60% profile completeness.
-     */
-    public function canGoOnline(): bool
-    {
-        return ($this->completeness_percentage ?? 100) >= 60;
     }
 }

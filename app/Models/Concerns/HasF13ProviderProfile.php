@@ -72,6 +72,15 @@ trait HasF13ProviderProfile
         return $score;
     }
 
+    /**
+     * Business rule: a provider can't go online for jobs below 60% completeness.
+     * F14's online toggle calls this.
+     */
+    public function canGoOnline(): bool
+    {
+        return $this->completeness() >= self::MIN_COMPLETENESS_TO_GO_ONLINE;
+    }
+
     public function missingItems(): array
     {
         $missing = [];

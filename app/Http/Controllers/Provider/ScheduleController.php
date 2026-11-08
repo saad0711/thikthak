@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class ScheduleController extends Controller
@@ -15,6 +16,20 @@ class ScheduleController extends Controller
     public function __construct(
         private readonly SlotGenerator $slotGenerator,
     ) {}
+
+    /**
+     * The week to show comes from ?date=YYYY-MM-DD. Anything else means this week.
+     */
+    private function requestedDate(Request $request): CarbonImmutable
+    {
+        $date = $request->query('date');
+
+        if (is_string($date) && Validator::make(['date' => $date], ['date' => 'date_format:Y-m-d'])->passes()) {
+            return CarbonImmutable::parse($date);
+        }
+
+        return CarbonImmutable::now();
+    }
 
     /**
      * Display the week calendar (Saturday to Friday).
@@ -25,9 +40,7 @@ class ScheduleController extends Controller
         Gate::authorize('view', $profile);
 
         // Determine the week to show, default to current week
-        $requestedDate = $request->query('date')
-            ? CarbonImmutable::parse($request->query('date'))
-            : CarbonImmutable::now();
+        $requestedDate = $this->requestedDate($request);
 
         // Find the Saturday that starts this week (Saturday = 6)
         $startOfWeek = $requestedDate->is('Saturday')

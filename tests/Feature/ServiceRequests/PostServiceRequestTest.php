@@ -9,6 +9,7 @@ use App\Models\ServiceRequest;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -122,6 +123,18 @@ class PostServiceRequestTest extends TestCase
             $response->assertSessionHasErrors('deadline');
             $this->assertDatabaseCount('service_requests', 0);
         }
+    }
+
+    public function test_deadline_rules_use_the_bangladesh_date(): void
+    {
+        // 8 pm UTC on the 7th is already 2 am on the 8th in Bangladesh.
+        $this->travelTo(Carbon::parse('2026-11-07 20:00:00', 'UTC')->setTimezone(config('app.timezone')));
+
+        $this->actingAs($this->customer)->post('/requests', $this->formData(['deadline' => '2026-11-08']))
+            ->assertSessionHasErrors('deadline');
+
+        $this->actingAs($this->customer)->post('/requests', $this->formData(['deadline' => '2026-11-09']))
+            ->assertSessionHasNoErrors();
     }
 
     public function test_five_photos_are_allowed_but_six_are_not(): void
